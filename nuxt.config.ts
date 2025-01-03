@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 		},
 	},
 	gtag: {
-		id: 'G-XXXXXXXXXX',
+		id: 'G-ERNS2TYDC7',
 	},
 
 	modules: ['@nuxt/icon', '@nuxt/fonts', 'nuxt-gtag'],

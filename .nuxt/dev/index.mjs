@@ -551,7 +551,7 @@ const _inlineRuntimeConfig = {
     "gtag": {
       "enabled": true,
       "initMode": "auto",
-      "id": "G-XXXXXXXXXX",
+      "id": "G-ERNS2TYDC7",
       "initCommands": [],
       "config": {},
       "tags": [],
