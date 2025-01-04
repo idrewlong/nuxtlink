@@ -1,4 +1,3 @@
-<!-- components/LinksProfile.vue -->
 <template>
 	<div
 		class="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-black"
@@ -15,12 +14,29 @@
 						<div
 							class="absolute -inset-0.5 bg-gradient-to-r from-madblue to-purple-200 rounded-full opacity-75 group-hover:opacity-100 transition duration-500 blur"
 						></div>
-						<NuxtLink class="relative block">
-							<img
-								:src="profile.avatar"
-								:alt="profile.name"
-								class="w-40 h-40 rounded-full object-contain ring-4 ring-white/10 group-hover:ring-white/20 transition duration-300"
-							/>
+						<NuxtLink
+							class="relative block w-40 h-40 rounded-full object-contain ring-4 ring-white/10 group-hover:ring-white/20 transition duration-300"
+						>
+							<div class="relative w-40 h-40">
+								<img
+									:src="profile.avatar"
+									:alt="profile.name"
+									class="w-40 h-40 rounded-full object-contain ring-4 ring-white/10 group-hover:ring-white/20 absolute top-0 left-0"
+									v-if="!isClient"
+								/>
+								<ClientOnly>
+									<img
+										v-for="(avatar, index) in avatars"
+										:key="index"
+										:src="avatar"
+										:alt="profile.name"
+										:class="[
+											'w-40 h-40 rounded-full object-contain ring-4 ring-white/10 group-hover:ring-white/20 transition-opacity duration-1000 absolute top-0 left-0',
+											{ 'opacity-0': avatar !== currentAvatar },
+										]"
+									/>
+								</ClientOnly>
+							</div>
 						</NuxtLink>
 					</div>
 
@@ -30,7 +46,7 @@
 						>
 							{{ profile.name }}
 						</h2>
-						<p class="text-gray-300 text-lg">{{ profile.bio }}</p>
+						<p class="text-gray-300 text-sm md:text-lg">{{ profile.bio }}</p>
 					</div>
 
 					<!-- Social Links -->
@@ -57,12 +73,36 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+
 // Profile data
 const profile = {
 	name: 'Andrew Long',
 	bio: 'Full Stack Developer | SEO Expert ',
 	avatar: '/images/drew.png',
+	avatar_2: '/images/drew2.png',
 };
+
+const isClient = ref(false);
+const currentAvatar = ref(profile.avatar);
+const avatars = [profile.avatar, profile.avatar_2];
+
+onMounted(() => {
+	// Preload images
+	avatars.forEach((src) => {
+		const img = new Image();
+		img.src = src;
+	});
+
+	isClient.value = true;
+
+	setInterval(() => {
+		currentAvatar.value =
+			currentAvatar.value === profile.avatar
+				? profile.avatar_2
+				: profile.avatar;
+	}, 5000);
+});
 
 // Social links with icons
 const socialLinks = [
@@ -105,3 +145,11 @@ const socialLinks = [
 	},
 ];
 </script>
+
+<style scoped>
+img {
+	backface-visibility: hidden;
+	will-change: opacity;
+	transform: translateZ(0);
+}
+</style>

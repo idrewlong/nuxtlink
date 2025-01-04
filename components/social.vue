@@ -1,7 +1,7 @@
 <template>
 	<NuxtLink :to="href" class="group block relative">
 		<div
-			class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg opacity-40 blur group-hover:opacity-75 transition duration-200"
+			class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg opacity-30 blur group-hover:opacity-75 transition duration-200"
 		></div>
 		<div
 			class="relative flex items-center bg-gray-900 rounded-lg px-6 py-4 transition-all duration-200 group-hover:bg-gray-800"
